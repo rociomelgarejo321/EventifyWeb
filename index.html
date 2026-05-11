@@ -1,0 +1,2163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eventify | Tu evento, sin complicaciones</title>
+  <style>
+    :root {
+      --azul-oscuro: #212541;
+      --azul-electrico: #6669f4;
+      --violeta: #aa9df8;
+      --lila-claro: #ececf8;
+      --blanco: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "DM Sans", "Montserrat", "Poppins", Arial, sans-serif;
+      background: var(--blanco);
+      color: var(--azul-oscuro);
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .page {
+      position: relative;
+      min-height: 100vh;
+    }
+
+    .blur-1,
+    .blur-2 {
+      width: 300px;
+      height: 300px;
+      background: rgba(170, 157, 248, 0.32);
+      top: 350px;
+      left: -140px;
+    }
+
+    .animated-bubble {
+      position: fixed;
+      z-index: -2;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(102,105,244,0.16), rgba(170,157,248,0.12));
+      border: 1px solid rgba(102, 105, 244, 0.12);
+      animation: floatBubble 16s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .bubble-a {
+      width: 180px;
+      height: 180px;
+      top: 18%;
+      left: 7%;
+    }
+
+    .bubble-b {
+      width: 260px;
+      height: 260px;
+      top: 52%;
+      right: 6%;
+      animation-delay: -5s;
+    }
+
+    .bubble-c {
+      width: 120px;
+      height: 120px;
+      bottom: 12%;
+      left: 45%;
+      animation-delay: -9s;
+    }
+
+    @keyframes floatBubble {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      35% { transform: translate3d(28px, -42px, 0) scale(1.08); }
+      70% { transform: translate3d(-24px, 26px, 0) scale(0.96); }
+    }
+
+    .blur-1 {
+      width: 380px;
+      height: 380px;
+      background: rgba(102, 105, 244, 0.2);
+      top: -120px;
+      right: -120px;
+    }
+
+    .blur-2 {
+      width: 300px;
+      height: 300px;
+      background: rgba(170, 157, 248, 0.32);
+      top: 350px;
+      left: -140px;
+    }
+
+    header {
+      padding: 14px 8% 0;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 16px 22px;
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid var(--lila-claro);
+      border-radius: 28px;
+      box-shadow: 0 12px 35px rgba(33, 37, 65, 0.06);
+      backdrop-filter: blur(16px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-symbol {
+      width: 150px;
+      height: 88px;
+    }
+
+    .brand h1 {
+      font-size: 42px;
+      line-height: 1;
+      letter-spacing: -1.2px;
+      font-weight: 700;
+    }
+
+    .brand p {
+      margin-top: 7px;
+      font-size: 11px;
+      color: var(--violeta);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      color: rgba(33, 37, 65, 0.7);
+      font-size: 14px;
+    }
+
+    .nav-links a:hover {
+      color: var(--azul-electrico);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 15px 24px;
+      font-weight: 700;
+      transition: 0.25s ease;
+      font-size: 15px;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .btn-primary {
+      background: var(--azul-electrico);
+      color: white;
+      box-shadow: 0 14px 30px rgba(102, 105, 244, 0.25);
+    }
+
+    .btn-dark {
+      background: var(--azul-oscuro);
+      color: white;
+      box-shadow: 0 16px 35px rgba(33, 37, 65, 0.22);
+    }
+
+    .btn-outline {
+      border: 1px solid #c5c4e8;
+      background: white;
+      color: var(--azul-oscuro);
+    }
+
+    .btn-outline:hover {
+      color: var(--azul-electrico);
+      border-color: var(--azul-electrico);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 0.85fr;
+      align-items: center;
+      gap: 70px;
+      padding: 38px 8% 90px;
+      min-height: calc(100vh - 125px);
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: var(--lila-claro);
+      color: var(--azul-electrico);
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .hero h2 {
+      font-size: clamp(48px, 7vw, 86px);
+      line-height: 0.96;
+      letter-spacing: -4px;
+      max-width: 760px;
+    }
+
+    .hero p {
+      margin-top: 26px;
+      max-width: 560px;
+      font-size: 19px;
+      line-height: 1.75;
+      color: rgba(33, 37, 65, 0.7);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+    }
+
+    .phone-wrap {
+      position: relative;
+      max-width: 430px;
+      margin: 0 auto;
+    }
+
+    .phone-glow {
+      position: absolute;
+      inset: -24px;
+      border-radius: 46px;
+      background: linear-gradient(135deg, rgba(102, 105, 244, 0.3), rgba(170, 157, 248, 0.3));
+      filter: blur(26px);
+    }
+
+    .phone {
+      position: relative;
+      background: white;
+      border: 1px solid var(--lila-claro);
+      border-radius: 42px;
+      padding: 20px;
+      box-shadow: 0 28px 70px rgba(33, 37, 65, 0.18);
+    }
+
+    .screen {
+      background: #f8f8ff;
+      border-radius: 34px;
+      padding: 22px;
+    }
+
+    .screen-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 18px;
+      gap: 16px;
+    }
+
+    .screen-top small {
+      color: rgba(33, 37, 65, 0.5);
+      font-size: 13px;
+    }
+
+    .screen-top h3 {
+      font-size: 25px;
+      margin-top: 5px;
+    }
+
+    .percent {
+      background: var(--azul-electrico);
+      color: white;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .stat {
+      background: white;
+      border-radius: 20px;
+      padding: 17px;
+      margin-bottom: 12px;
+      box-shadow: 0 8px 25px rgba(33, 37, 65, 0.05);
+    }
+
+    .stat small {
+      color: rgba(33, 37, 65, 0.5);
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 5px;
+      font-size: 22px;
+    }
+
+    .ai-card {
+      background: var(--azul-oscuro);
+      color: white;
+      padding: 18px;
+      border-radius: 20px;
+      margin-top: 14px;
+    }
+
+    .ai-card small {
+      color: var(--violeta);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 700;
+      font-size: 11px;
+    }
+
+    .ai-card p {
+      margin-top: 10px;
+      color: white;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    section {
+      padding: 80px 8%;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--azul-electrico);
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      max-width: 720px;
+      font-size: clamp(36px, 5vw, 56px);
+      line-height: 1.04;
+      letter-spacing: -2px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      margin-top: 44px;
+    }
+
+    .feature-card {
+      background: white;
+      border: 1px solid var(--lila-claro);
+      border-radius: 30px;
+      padding: 32px;
+      box-shadow: 0 10px 25px rgba(33, 37, 65, 0.04);
+      transition: 0.25s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 45px rgba(33, 37, 65, 0.1);
+    }
+
+    .icon-box {
+      width: 52px;
+      height: 52px;
+      background: var(--lila-claro);
+      border-radius: 18px;
+      margin-bottom: 22px;
+      position: relative;
+    }
+
+    .icon-box::after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      background: var(--azul-electrico);
+      top: 18px;
+      left: 18px;
+    }
+
+    .feature-card h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      color: rgba(33, 37, 65, 0.65);
+      line-height: 1.7;
+    }
+
+    .ia-section {
+      padding-top: 40px;
+    }
+
+    .ia-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+      background: var(--azul-oscuro);
+      color: white;
+      border-radius: 44px;
+      padding: 58px;
+    }
+
+    .ia-box .section-label {
+      color: var(--violeta);
+    }
+
+    .ia-box h2 {
+      font-size: clamp(36px, 5vw, 56px);
+      line-height: 1.04;
+      letter-spacing: -2px;
+    }
+
+    .ia-text p {
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.8;
+      font-size: 17px;
+      margin-bottom: 18px;
+    }
+
+    .providers-box {
+      background: linear-gradient(135deg, var(--lila-claro), white);
+      border-radius: 44px;
+      padding: 58px;
+    }
+
+    .providers-content {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .providers-box p {
+      margin-top: 22px;
+      max-width: 590px;
+      color: rgba(33, 37, 65, 0.7);
+      line-height: 1.75;
+      font-size: 17px;
+    }
+
+    .providers-list {
+      display: grid;
+      gap: 13px;
+    }
+
+    .provider-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: white;
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 8px 24px rgba(33, 37, 65, 0.05);
+      font-weight: 700;
+    }
+
+    .provider-item span {
+      background: rgba(170, 157, 248, 0.25);
+      color: var(--azul-electrico);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .mission-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .mission-card {
+      background: var(--azul-oscuro);
+      color: white;
+      border-radius: 36px;
+      padding: 42px;
+      min-height: 330px;
+    }
+
+    .mission-card .section-label {
+      color: var(--violeta);
+    }
+
+    .mission-card h2 {
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      margin-bottom: 20px;
+    }
+
+    .mission-card p:last-child {
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.75;
+      font-size: 17px;
+    }
+
+    .vision-card {
+      background: linear-gradient(135deg, var(--azul-electrico), var(--violeta));
+    }
+
+    .vision-card .section-label,
+    .vision-card p:last-child {
+      color: white;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      margin-top: 44px;
+    }
+
+    .testimonial-card {
+      position: relative;
+      background: white;
+      border: 1px solid var(--lila-claro);
+      border-radius: 30px;
+      padding: 30px;
+      box-shadow: 0 12px 30px rgba(33, 37, 65, 0.05);
+    }
+
+    .testimonial-img {
+      width: 74px;
+      height: 74px;
+      border-radius: 999px;
+      object-fit: cover;
+      margin-bottom: 20px;
+      border: 4px solid var(--lila-claro);
+    }
+
+    .testimonial-card p {
+      color: rgba(33, 37, 65, 0.72);
+      line-height: 1.75;
+      font-size: 17px;
+      margin-bottom: 24px;
+    }
+
+    .testimonial-card strong {
+      display: block;
+      font-size: 17px;
+      margin-bottom: 5px;
+    }
+
+    .testimonial-card span {
+      color: var(--azul-electrico);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .faq-box {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 44px;
+      align-items: start;
+      background: #f8f8ff;
+      border-radius: 44px;
+      padding: 58px;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    details {
+      background: white;
+      border: 1px solid var(--lila-claro);
+      border-radius: 22px;
+      padding: 20px 22px;
+      box-shadow: 0 8px 22px rgba(33, 37, 65, 0.04);
+    }
+
+    summary {
+      cursor: pointer;
+      font-weight: 800;
+      color: var(--azul-oscuro);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    summary::after {
+      content: "+";
+      color: var(--azul-electrico);
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    details[open] summary::after {
+      content: "−";
+    }
+
+    details p {
+      margin-top: 14px;
+      color: rgba(33, 37, 65, 0.68);
+      line-height: 1.7;
+    }
+
+    .extra-page {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .extra-text {
+      margin-top: 24px;
+      color: rgba(33, 37, 65, 0.7);
+      line-height: 1.8;
+      font-size: 17px;
+      max-width: 580px;
+    }
+
+    .timeline-box {
+      display: grid;
+      gap: 18px;
+    }
+
+    .timeline-item {
+      background: white;
+      border: 1px solid var(--lila-claro);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(33, 37, 65, 0.05);
+    }
+
+    .timeline-item strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 19px;
+    }
+
+    .timeline-item p {
+      color: rgba(33, 37, 65, 0.68);
+      line-height: 1.7;
+    }
+
+    .faq-page-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      background: linear-gradient(135deg, #212541, #6669f4);
+      padding: 58px;
+      border-radius: 44px;
+      color: white;
+    }
+
+    .faq-page-content p {
+      margin-top: 22px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.8;
+      margin-bottom: 30px;
+      max-width: 520px;
+    }
+
+    .faq-page-content .section-label {
+      color: #cfc8ff;
+    }
+
+    .faq-preview {
+      display: grid;
+      gap: 18px;
+    }
+
+    .faq-preview-card {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 24px;
+    }
+
+    .faq-preview-card strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .faq-preview-card span {
+      color: rgba(255,255,255,0.75);
+      line-height: 1.6;
+    }
+
+    .assistant-box {
+      display: grid;
+      grid-template-columns: 1fr 0.9fr;
+      gap: 50px;
+      align-items: center;
+      background: linear-gradient(135deg, var(--lila-claro), #ffffff);
+      border-radius: 44px;
+      padding: 58px;
+    }
+
+    .assistant-content p:not(.section-label) {
+      margin-top: 18px;
+      color: rgba(33, 37, 65, 0.7);
+      line-height: 1.8;
+      font-size: 17px;
+      max-width: 610px;
+    }
+
+    .chat-demo {
+      background: white;
+      border: 1px solid var(--lila-claro);
+      border-radius: 34px;
+      padding: 22px;
+      box-shadow: 0 24px 55px rgba(33, 37, 65, 0.12);
+    }
+
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--lila-claro);
+    }
+
+    .bot-avatar,
+    .floating-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--azul-electrico), var(--violeta));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .bot-photo,
+    .floating-photo {
+      width: 52px;
+      height: 52px;
+      border-radius: 999px;
+      object-fit: cover;
+      border: 3px solid var(--lila-claro);
+      box-shadow: 0 8px 18px rgba(33, 37, 65, 0.16);
+    }
+
+    .chat-header span {
+      display: block;
+      color: rgba(33, 37, 65, 0.55);
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
+    .chat-body {
+      display: grid;
+      gap: 12px;
+      padding: 22px 0;
+    }
+
+    .message {
+      max-width: 86%;
+      padding: 14px 16px;
+      border-radius: 18px;
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .message.bot {
+      background: var(--lila-claro);
+      color: var(--azul-oscuro);
+      border-bottom-left-radius: 6px;
+    }
+
+    .message.user {
+      justify-self: end;
+      background: var(--azul-electrico);
+      color: white;
+      border-bottom-right-radius: 6px;
+    }
+
+    .bot-options {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .bot-options button {
+      border: none;
+      background: var(--azul-oscuro);
+      color: white;
+      border-radius: 999px;
+      padding: 11px 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .floating-chat {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: white;
+      border: 1px solid var(--lila-claro);
+      border-radius: 999px;
+      padding: 12px 18px 12px 12px;
+      box-shadow: 0 18px 45px rgba(33, 37, 65, 0.18);
+      cursor: pointer;
+      font-family: inherit;
+      color: var(--azul-oscuro);
+    }
+
+    .floating-chat span {
+      display: block;
+      color: rgba(33, 37, 65, 0.58);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .chat-widget {
+      position: fixed;
+      right: 24px;
+      bottom: 98px;
+      z-index: 30;
+      width: min(390px, calc(100vw - 32px));
+      background: white;
+      border: 1px solid var(--lila-claro);
+      border-radius: 28px;
+      box-shadow: 0 24px 70px rgba(33, 37, 65, 0.24);
+      overflow: hidden;
+      display: none;
+    }
+
+    .chat-widget.active {
+      display: block;
+    }
+
+    .chat-widget-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--azul-oscuro);
+      color: white;
+      padding: 16px;
+    }
+
+    .chat-widget-header span {
+      display: block;
+      font-size: 12px;
+      color: rgba(255,255,255,0.68);
+      margin-top: 3px;
+    }
+
+    .chat-widget-header button {
+      margin-left: auto;
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .chat-widget-body {
+      height: 320px;
+      overflow-y: auto;
+      padding: 18px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+      background: #f8f8ff;
+    }
+
+    .chat-gender {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--lila-claro);
+      background: white;
+    }
+
+    .chat-gender button {
+      flex: 1;
+      border: 1px solid var(--lila-claro);
+      background: white;
+      color: var(--azul-electrico);
+      border-radius: 999px;
+      padding: 10px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .chat-input {
+      display: flex;
+      gap: 10px;
+      padding: 14px;
+      border-top: 1px solid var(--lila-claro);
+      background: white;
+    }
+
+    .chat-input input {
+      flex: 1;
+      border: 1px solid var(--lila-claro);
+      border-radius: 999px;
+      padding: 13px 15px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .chat-input input:focus {
+      border-color: var(--azul-electrico);
+    }
+
+    .chat-input button {
+      border: none;
+      border-radius: 999px;
+      padding: 0 16px;
+      background: var(--azul-electrico);
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .app-pages-box {
+      background: rgba(255,255,255,0.82);
+      border: 1px solid var(--lila-claro);
+      border-radius: 44px;
+      padding: 34px;
+      box-shadow: 0 22px 70px rgba(33,37,65,0.08);
+      backdrop-filter: blur(18px);
+    }
+
+    .app-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .tab-button {
+      border: 1px solid var(--lila-claro);
+      background: white;
+      color: var(--azul-oscuro);
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .tab-button.active {
+      background: var(--azul-electrico);
+      color: white;
+      border-color: var(--azul-electrico);
+    }
+
+    .tab-content {
+      display: none;
+      grid-template-columns: 1fr 0.9fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .tab-content.active {
+      display: grid;
+    }
+
+    .tab-text {
+      margin-top: 20px;
+      color: rgba(33,37,65,0.7);
+      line-height: 1.75;
+      font-size: 17px;
+    }
+
+    .mock-page,
+    .mock-quote-mini,
+    .mini-testimonial,
+    .help-card {
+      background: #f8f8ff;
+      border: 1px solid var(--lila-claro);
+      border-radius: 30px;
+      padding: 26px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.6);
+    }
+
+    .mock-page-top {
+      height: 50px;
+      width: 50%;
+      border-radius: 18px;
+      background: linear-gradient(90deg, var(--azul-electrico), var(--violeta));
+      margin-bottom: 18px;
+    }
+
+    .mock-row {
+      height: 16px;
+      border-radius: 999px;
+      background: #d7d6f4;
+      margin-bottom: 12px;
+    }
+
+    .mock-row.large { width: 90%; }
+    .mock-row.short { width: 55%; }
+
+    .mock-card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .mock-card-grid span,
+    .mock-quote-mini p,
+    .faq-preview-card,
+    .help-card {
+      background: white;
+      border-radius: 18px;
+      padding: 14px;
+    }
+
+    .mock-quote-mini strong,
+    .mock-quote-mini span {
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    .mock-quote-mini span {
+      color: var(--azul-electrico);
+      font-weight: 900;
+      font-size: 20px;
+      margin-top: 18px;
+    }
+
+    .mini-testimonial img {
+      width: 86px;
+      height: 86px;
+      border-radius: 999px;
+      object-fit: cover;
+      margin-bottom: 18px;
+      border: 4px solid var(--lila-claro);
+    }
+
+    .mini-testimonial p {
+      font-size: 20px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .help-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--azul-electrico), var(--violeta));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 20px;
+    }
+
+    .interactive-steps {
+      background: white;
+      border: 1px solid var(--lila-claro);
+      border-radius: 34px;
+      padding: 28px;
+      box-shadow: 0 18px 42px rgba(33,37,65,0.08);
+    }
+
+    .step-buttons {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .step-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 999px;
+      border: 1px solid var(--lila-claro);
+      background: #f8f8ff;
+      color: var(--azul-oscuro);
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .step-btn.active {
+      background: var(--azul-electrico);
+      color: white;
+      border-color: var(--azul-electrico);
+    }
+
+    .step-display span {
+      color: var(--azul-electrico);
+      font-weight: 900;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .step-display h3 {
+      font-size: 30px;
+      margin: 12px 0;
+    }
+
+    .step-display p {
+      color: rgba(33,37,65,0.68);
+      line-height: 1.7;
+      min-height: 54px;
+    }
+
+    .progress-line {
+      height: 10px;
+      background: var(--lila-claro);
+      border-radius: 999px;
+      margin-top: 24px;
+      overflow: hidden;
+    }
+
+    .progress-line div {
+      height: 100%;
+      width: 25%;
+      background: linear-gradient(90deg, var(--azul-electrico), var(--violeta));
+      border-radius: inherit;
+      transition: 0.25s ease;
+    }
+
+    .quote-box {
+      display: grid;
+      grid-template-columns: 1fr 0.9fr;
+      gap: 46px;
+      align-items: center;
+      background: linear-gradient(135deg, #f8f8ff, white);
+      border: 1px solid var(--lila-claro);
+      border-radius: 44px;
+      padding: 58px;
+    }
+
+    .quote-intro {
+      margin-top: 22px;
+      color: rgba(33,37,65,0.7);
+      line-height: 1.8;
+      font-size: 17px;
+    }
+
+    .quote-calculator {
+      background: white;
+      border-radius: 32px;
+      padding: 28px;
+      box-shadow: 0 18px 45px rgba(33,37,65,0.1);
+      display: grid;
+      gap: 14px;
+    }
+
+    .quote-calculator label {
+      font-weight: 800;
+    }
+
+    .quote-calculator select,
+    .quote-calculator input[type="range"] {
+      width: 100%;
+    }
+
+    .quote-calculator select {
+      border: 1px solid var(--lila-claro);
+      border-radius: 16px;
+      padding: 14px;
+      font-family: inherit;
+    }
+
+    .service-checks {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .service-checks label {
+      background: #f8f8ff;
+      border-radius: 16px;
+      padding: 12px;
+      font-size: 14px;
+    }
+
+    .quote-result {
+      background: var(--azul-oscuro);
+      color: white;
+      border-radius: 24px;
+      padding: 22px;
+      margin-top: 8px;
+    }
+
+    .quote-result span {
+      color: var(--violeta);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 900;
+    }
+
+    .quote-result strong {
+      display: block;
+      font-size: 34px;
+      margin: 8px 0;
+    }
+
+    .quote-result p {
+      color: rgba(255,255,255,0.75);
+      line-height: 1.6;
+    }
+
+    .organization-demo {
+      background: linear-gradient(135deg, #ffffff, #f1f0ff);
+    }
+
+    .org-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .org-header small {
+      display: block;
+      color: rgba(33,37,65,0.55);
+      margin-bottom: 5px;
+    }
+
+    .org-header strong {
+      font-size: 22px;
+    }
+
+    .org-header span {
+      background: var(--azul-electrico);
+      color: white;
+      border-radius: 999px;
+      padding: 9px 12px;
+      font-weight: 900;
+    }
+
+    .org-progress {
+      height: 12px;
+      background: var(--lila-claro);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .org-progress div {
+      width: 68%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--azul-electrico), var(--violeta));
+      border-radius: inherit;
+    }
+
+    .org-dashboard {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .org-card {
+      background: white;
+      border: 1px solid var(--lila-claro);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 8px 20px rgba(33,37,65,0.05);
+    }
+
+    .org-card small {
+      display: block;
+      color: rgba(33,37,65,0.55);
+      margin-bottom: 6px;
+    }
+
+    .org-card strong {
+      font-size: 20px;
+    }
+
+    .org-task-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .org-task-list div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      border-radius: 16px;
+      padding: 13px;
+      color: rgba(33,37,65,0.78);
+      font-weight: 700;
+    }
+
+    .org-task-list span {
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: var(--azul-electrico);
+    }
+
+    .question-form {
+      background: var(--azul-oscuro);
+      color: white;
+      border-radius: 26px;
+      padding: 24px;
+      display: grid;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .question-form h3 {
+      font-size: 24px;
+    }
+
+    .question-form p {
+      color: rgba(255,255,255,0.75);
+      line-height: 1.6;
+      margin: 0 0 6px;
+    }
+
+    .question-form input,
+    .question-form textarea {
+      width: 100%;
+      border: none;
+      border-radius: 16px;
+      padding: 14px 15px;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .question-form textarea {
+      min-height: 95px;
+      resize: vertical;
+    }
+
+    .question-form button {
+      border: none;
+      border-radius: 999px;
+      background: var(--azul-electrico);
+      color: white;
+      padding: 14px 18px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .question-form small {
+      color: #cfc8ff;
+      font-weight: 700;
+      min-height: 18px;
+    }
+
+    footer {
+      padding: 30px 8% 45px;
+    }
+
+    .footer-content {
+      max-width: 1180px;
+      margin: 0 auto;
+      border-top: 1px solid var(--lila-claro);
+      padding-top: 28px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      color: rgba(33, 37, 65, 0.55);
+      font-size: 14px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 900px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero,
+      .ia-box,
+      .providers-content {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 52px;
+      }
+
+      .features-grid,
+      .testimonials-grid,
+      .mission-box,
+      .faq-box,
+      .assistant-box,
+      .tab-content,
+      .extra-page,
+      .quote-box {
+        grid-template-columns: 1fr;
+      }
+
+      .ia-box,
+      .providers-box {
+        padding: 34px;
+        border-radius: 34px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      header,
+      section,
+      footer {
+        padding-left: 5%;
+        padding-right: 5%;
+      }
+
+      nav {
+        align-items: flex-start;
+      }
+
+      .brand h1 {
+        font-size: 24px;
+      }
+
+      .logo-symbol {
+        width: 110px;
+      }
+
+      nav .btn {
+        display: none;
+      }
+
+      .hero h2 {
+        letter-spacing: -2px;
+      }
+
+      .provider-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <button class="floating-chat" id="openChat" type="button">
+      <img class="floating-photo" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop" alt="Evita asistente virtual">
+      <div>
+        <strong>Evita</strong>
+        <span>¿Necesitás ayuda?</span>
+      </div>
+    </button>
+
+    <div class="chat-widget" id="chatWidget">
+      <div class="chat-widget-header">
+        <img class="bot-photo" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop" alt="Evita asistente virtual">
+        <div>
+          <strong>Evita</strong>
+          <span>Asistente virtual de Eventify</span>
+        </div>
+        <button id="closeChat" type="button">×</button>
+      </div>
+
+      <div class="chat-widget-body" id="chatMessages">
+        <div class="message bot">¡Hola! Soy Evita. Puedo ayudarte a organizar tu evento, buscar proveedores o armar un presupuesto.</div>
+      </div>
+
+      <div class="chat-gender">
+        <button type="button" data-profile="femenino">Perfil femenino</button>
+        <button type="button" data-profile="masculino">Perfil masculino</button>
+      </div>
+
+      <form class="chat-input" id="chatForm">
+        <input type="text" id="chatInput" placeholder="Escribí tu mensaje..." autocomplete="off">
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+
+    <div class="blur-1"></div>
+    <div class="blur-2"></div>
+    <div class="animated-bubble bubble-a"></div>
+    <div class="animated-bubble bubble-b"></div>
+    <div class="animated-bubble bubble-c"></div>
+
+    <header>
+      <nav>
+        <a href="#" class="brand">
+          <svg class="logo-symbol" viewBox="0 0 120 70" fill="none" aria-label="Logo Eventify">
+            <path d="M14 50 C14 18 48 7 77 18 C98 26 108 43 105 62" stroke="#6669f4" stroke-width="4" stroke-linecap="round" />
+            <path d="M34 48 C42 31 62 29 74 43" stroke="#c5c4e8" stroke-width="4" stroke-linecap="round" />
+            <circle cx="14" cy="50" r="5" fill="#6669f4" />
+            <circle cx="35" cy="21" r="7" fill="#aa9df8" />
+            <circle cx="57" cy="50" r="8" fill="#6669f4" />
+            <path d="M53 50 L56 53 L62 46" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div>
+            <h1>eventify</h1>
+            <p>Tu evento, sin complicaciones</p>
+          </div>
+        </a>
+
+        <div class="nav-links">
+          <a href="#funciones">Funciones</a>
+          <a href="#cotizador">Cotización</a>
+          <a href="#testimonios">Testimonios</a>
+          <a href="#asistente">Asistente</a>
+          <a href="#faq">FAQ</a>
+        </div>
+
+        <a href="#funciones" class="btn btn-primary">Empezar</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <div class="tag">Plataforma digital para organizar eventos</div>
+          <h2>Organizá tu evento en un solo lugar.</h2>
+          <p>
+            Eventify centraliza invitados, presupuesto, proveedores y cronogramas en una experiencia simple, intuitiva y personalizada.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-dark" href="#proveedores">Crear mi evento</a>
+            <a class="btn btn-outline" href="#ia">Ver demo</a>
+          </div>
+        </div>
+
+        <div class="phone-wrap">
+          <div class="phone-glow"></div>
+          <div class="phone">
+            <div class="screen">
+              <div class="screen-top">
+                <div>
+                  <small>Evento activo</small>
+                  <h3>Lanzamiento marca</h3>
+                </div>
+                <div class="percent">72%</div>
+              </div>
+
+              <div class="stat">
+                <small>Invitados confirmados</small>
+                <strong>86/120</strong>
+              </div>
+              <div class="stat">
+                <small>Presupuesto usado</small>
+                <strong>$420.000</strong>
+              </div>
+              <div class="stat">
+                <small>Proveedores elegidos</small>
+                <strong>5 servicios</strong>
+              </div>
+
+              <div class="ai-card">
+                <small>Asistente IA</small>
+                <p>Te conviene reservar catering esta semana para evitar aumento de precios.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="app-pages">
+        <div class="container app-pages-box">
+          <div class="app-tabs">
+            <button class="tab-button active" data-tab="organizacion">Organización</button>
+            <button class="tab-button" data-tab="cotizacion">Cotización</button>
+            <button class="tab-button" data-tab="testimonios-tab">Testimonios</button>
+            <button class="tab-button" data-tab="ayuda">Ayuda</button>
+          </div>
+
+          <div class="tab-content active" id="organizacion">
+            <div>
+              <p class="section-label">Páginas dentro de la app</p>
+              <h2 class="section-title">Eventify funciona como una app con distintas áreas.</h2>
+              <p class="tab-text">El usuario puede moverse entre organización, presupuesto, proveedores, invitados y ayuda virtual sin salir de la plataforma.</p>
+            </div>
+            <div class="mock-page organization-demo">
+              <div class="org-header">
+                <div>
+                  <small>Evento activo</small>
+                  <strong>Cumpleaños de Martina</strong>
+                </div>
+                <span>68%</span>
+              </div>
+
+              <div class="org-progress">
+                <div></div>
+              </div>
+
+              <div class="org-dashboard">
+                <div class="org-card">
+                  <small>Invitados</small>
+                  <strong>86/120</strong>
+                </div>
+                <div class="org-card">
+                  <small>Presupuesto</small>
+                  <strong>$890.000</strong>
+                </div>
+                <div class="org-card">
+                  <small>Tareas listas</small>
+                  <strong>14/20</strong>
+                </div>
+                <div class="org-card">
+                  <small>Proveedores</small>
+                  <strong>5 elegidos</strong>
+                </div>
+              </div>
+
+              <div class="org-task-list">
+                <div><span></span>Confirmar catering</div>
+                <div><span></span>Enviar invitaciones</div>
+                <div><span></span>Revisar decoración</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-content" id="cotizacion">
+            <div>
+              <p class="section-label">Cotización</p>
+              <h2 class="section-title">Calculá un evento ejemplo en segundos.</h2>
+              <p class="tab-text">La app puede estimar gastos por cantidad de invitados, tipo de evento y servicios elegidos.</p>
+            </div>
+            <div class="mock-quote-mini">
+              <strong>Cumpleaños · 80 invitados</strong>
+              <p>Catering: $560.000</p>
+              <p>DJ & sonido: $180.000</p>
+              <p>Decoración: $150.000</p>
+              <span>Total estimado: $890.000</span>
+            </div>
+          </div>
+
+          <div class="tab-content" id="testimonios-tab">
+            <div>
+              <p class="section-label">Comunidad</p>
+              <h2 class="section-title">Una página dedicada a experiencias reales.</h2>
+              <p class="tab-text">Los testimonios ayudan a construir confianza y muestran cómo Eventify reduce el estrés de organizar.</p>
+            </div>
+            <div class="mini-testimonial">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop" alt="Usuaria de Eventify">
+              <p>“Sentí que tenía una amiga guiándome en cada decisión.”</p>
+              <strong>Martina, usuaria Eventify</strong>
+            </div>
+          </div>
+
+          <div class="tab-content" id="ayuda">
+            <div>
+              <p class="section-label">Ayuda</p>
+              <h2 class="section-title">Evita acompaña cada paso del proceso.</h2>
+              <p class="tab-text">El chat virtual responde dudas, recomienda tareas y ayuda a ordenar proveedores y presupuesto.</p>
+            </div>
+            <div class="help-card">
+              <div class="help-avatar">E</div>
+              <p>“Primero definamos fecha, invitados y presupuesto. Después te recomiendo proveedores.”</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="funciones">
+        <div class="container">
+          <p class="section-label">Funciones principales</p>
+          <h2 class="section-title">Menos estrés. Más control. Mejor experiencia.</h2>
+
+          <div class="features-grid">
+            <article class="feature-card">
+              <div class="icon-box"></div>
+              <h3>Todo centralizado</h3>
+              <p>Gestioná invitados, tareas, presupuesto y proveedores sin saltar entre apps.</p>
+            </article>
+
+            <article class="feature-card">
+              <div class="icon-box"></div>
+              <h3>Decisiones simples</h3>
+              <p>Compará opciones, reseñas y precios para elegir con más claridad.</p>
+            </article>
+
+            <article class="feature-card">
+              <div class="icon-box"></div>
+              <h3>Planificación adaptable</h3>
+              <p>La app se ajusta a eventos sociales, laborales o emprendimientos pequeños.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="ia" class="ia-section">
+        <div class="container ia-box">
+          <div>
+            <p class="section-label">Inteligencia artificial</p>
+            <h2>Una guía inteligente para cada paso.</h2>
+          </div>
+          <div class="ia-text">
+            <p>Eventify usa IA para sugerir proveedores, ordenar prioridades, optimizar presupuestos y reducir errores durante la planificación.</p>
+            <p>No reemplaza al usuario: lo acompaña con recomendaciones claras, simples y accionables.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="asistente">
+        <div class="container assistant-box">
+          <div class="assistant-content">
+            <p class="section-label">Chat virtual</p>
+            <h2 class="section-title">Conocé a Evita, tu amiga organizadora.</h2>
+            <p>
+              Evita es el bot de Eventify: una asistente cercana, amable y práctica que acompaña al usuario durante toda la organización. Puede ayudar a ordenar tareas, recordar pendientes, sugerir proveedores y responder dudas en tiempo real.
+            </p>
+            <p>
+              El usuario puede personalizar su experiencia eligiendo si prefiere que el asistente tenga perfil femenino o masculino, manteniendo siempre un tono claro, amable y empático.
+            </p>
+          </div>
+
+          <div class="chat-demo">
+            <div class="chat-header">
+              <img class="bot-photo" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop" alt="Evita asistente virtual">
+              <div>
+                <strong>Evita</strong>
+                <span>Asistente virtual</span>
+              </div>
+            </div>
+
+            <div class="chat-body">
+              <div class="message bot">¡Hola! Soy Evita. ¿Querés que organicemos tu evento paso a paso?</div>
+              <div class="message user">Sí, necesito ayuda con proveedores y presupuesto.</div>
+              <div class="message bot">Perfecto. Primero voy a ordenar tus prioridades y después te muestro opciones según tu presupuesto.</div>
+            </div>
+
+            <div class="bot-options">
+              <button>Perfil femenino</button>
+              <button>Perfil masculino</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="proveedores">
+        <div class="container providers-box">
+          <div class="providers-content">
+            <div>
+              <p class="section-label">Ecosistema Eventify</p>
+              <h2 class="section-title">Conectá con proveedores sin perder tiempo.</h2>
+              <p>
+                Catering, fotografía, decoración, sedes, DJs y más servicios reunidos en una misma plataforma para comparar, elegir y avanzar.
+              </p>
+            </div>
+
+            <div class="providers-list">
+              <div class="provider-item">Catering <span>Ver opciones</span></div>
+              <div class="provider-item">Fotografía <span>Ver opciones</span></div>
+              <div class="provider-item">Decoración <span>Ver opciones</span></div>
+              <div class="provider-item">Sedes <span>Ver opciones</span></div>
+              <div class="provider-item">DJ & sonido <span>Ver opciones</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="diferencial">
+        <div class="container">
+          <p class="section-label">Nuestro diferencial</p>
+          <h2 class="section-title">¿En qué nos destacamos frente a la competencia?</h2>
+
+          <div class="features-grid">
+            <article class="feature-card">
+              <div class="icon-box"></div>
+              <h3>Más simple que las plataformas corporativas</h3>
+              <p>Eventify está pensada para usuarios individuales, emprendedores y pequeñas empresas, sin procesos complejos ni herramientas difíciles de usar.</p>
+            </article>
+
+            <article class="feature-card">
+              <div class="icon-box"></div>
+              <h3>Experiencia personalizada</h3>
+              <p>La plataforma se adapta a distintos tipos de eventos y usuarios, ofreciendo recomendaciones y herramientas según cada necesidad.</p>
+            </article>
+
+            <article class="feature-card">
+              <div class="icon-box"></div>
+              <h3>IA como asistente de organización</h3>
+              <p>La inteligencia artificial ayuda a priorizar tareas, optimizar presupuesto y sugerir proveedores según el tipo de evento.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="mision-vision">
+        <div class="container mission-box">
+          <div class="mission-card">
+            <p class="section-label">Misión</p>
+            <h2>Simplificar la organización de eventos.</h2>
+            <p>Brindamos una plataforma tecnológica que acompaña a cada usuario durante todo el proceso, reduciendo el estrés, ordenando las tareas y optimizando su tiempo.</p>
+          </div>
+
+          <div class="mission-card vision-card">
+            <p class="section-label">Visión</p>
+            <h2>Ser la plataforma de referencia en eventos.</h2>
+            <p>Buscamos convertirnos en una solución reconocida en Argentina y la región, transformando una experiencia compleja en algo simple, accesible y memorable.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="testimonios">
+        <div class="container">
+          <p class="section-label">Testimonios</p>
+          <h2 class="section-title">Personas que organizaron mejor con Eventify.</h2>
+
+          <div class="testimonials-grid">
+            <article class="testimonial-card">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop" alt="Martina" class="testimonial-img">
+              <p>“Antes tenía todo separado entre WhatsApp, notas y planillas. Con Eventify pude ordenar el presupuesto y los proveedores en un solo lugar.”</p>
+              <div>
+                <strong>Martina López</strong>
+                <span>Organizó un cumpleaños de 30</span>
+              </div>
+            </article>
+
+            <article class="testimonial-card">
+              <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=800&auto=format&fit=crop" alt="Sofía" class="testimonial-img">
+              <p>“Me ayudó a comparar opciones sin perder horas buscando. La parte de IA me sirvió para saber qué tareas resolver primero.”</p>
+              <div>
+                <strong>Sofía Ramírez</strong>
+                <span>Emprendedora gastronómica</span>
+              </div>
+            </article>
+
+            <article class="testimonial-card">
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=800&auto=format&fit=crop" alt="Lucas" class="testimonial-img">
+              <p>“Lo que más me gustó fue que no parece una herramienta corporativa difícil. Es clara, visual y fácil de usar.”</p>
+              <div>
+                <strong>Lucas Fernández</strong>
+                <span>Organizador independiente</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div class="container faq-box">
+          <div>
+            <p class="section-label">Preguntas frecuentes</p>
+            <h2 class="section-title">Todo lo que necesitás saber antes de empezar.</h2>
+          </div>
+
+          <div class="faq-list">
+            <form class="question-form" id="questionForm">
+              <h3>Dejá tu pregunta</h3>
+              <p>Te respondemos por mail con ayuda personalizada para tu evento.</p>
+              <input type="email" id="questionEmail" placeholder="Tu mail" required>
+              <textarea id="questionText" placeholder="Escribí tu pregunta..." required></textarea>
+              <button type="submit">Enviar pregunta</button>
+              <small id="questionMessage"></small>
+            </form>
+
+            <details>
+              <summary>¿Eventify es solo para eventos grandes?</summary>
+              <p>No. Está pensada especialmente para eventos sociales, pequeños y medianos, además de emprendimientos u organizaciones chicas.</p>
+            </details>
+
+            <details>
+              <summary>¿Necesito experiencia organizando eventos?</summary>
+              <p>No. La plataforma guía el proceso paso a paso para que cualquier usuario pueda organizar su evento de manera simple.</p>
+            </details>
+
+            <details>
+              <summary>¿La inteligencia artificial toma decisiones por mí?</summary>
+              <p>No. La IA funciona como asistente: sugiere, ordena y recomienda, pero la decisión final siempre la toma el usuario.</p>
+            </details>
+
+            <details>
+              <summary>¿Puedo encontrar proveedores dentro de la app?</summary>
+              <p>Sí. Eventify conecta usuarios con proveedores de catering, fotografía, decoración, sedes, música y otros servicios.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section id="features-extra">
+        <div class="container extra-page">
+          <div class="extra-left">
+            <p class="section-label">Cómo funciona</p>
+            <h2 class="section-title">Organizar un evento nunca fue tan visual y simple.</h2>
+            <p class="extra-text">Tocá cada etapa para ver cómo Eventify ordena el proceso y ayuda al usuario a avanzar sin perder información.</p>
+          </div>
+
+          <div class="interactive-steps">
+            <div class="step-buttons">
+              <button class="step-btn active" data-step="1">1</button>
+              <button class="step-btn" data-step="2">2</button>
+              <button class="step-btn" data-step="3">3</button>
+              <button class="step-btn" data-step="4">4</button>
+            </div>
+
+            <div class="step-display">
+              <span id="stepNumber">Paso 1</span>
+              <h3 id="stepTitle">Crear evento</h3>
+              <p id="stepText">Elegí el tipo de evento, fecha, cantidad de invitados y presupuesto inicial.</p>
+              <div class="progress-line"><div id="stepProgress"></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cotizador">
+        <div class="container quote-box">
+          <div>
+            <p class="section-label">Cotizador interactivo</p>
+            <h2 class="section-title">Ejemplo de cotización para un evento.</h2>
+            <p class="quote-intro">Mové la cantidad de invitados y elegí servicios para simular un presupuesto aproximado dentro de Eventify.</p>
+          </div>
+
+          <div class="quote-calculator">
+            <label>Tipo de evento</label>
+            <select id="eventType">
+              <option value="cumpleanos">Cumpleaños</option>
+              <option value="casamiento">Casamiento</option>
+              <option value="corporativo">Evento corporativo</option>
+            </select>
+
+            <label>Cantidad de invitados: <strong id="guestNumber">80</strong></label>
+            <input id="guestRange" type="range" min="20" max="250" value="80" step="10">
+
+            <div class="service-checks">
+              <label><input type="checkbox" class="service" value="catering" checked> Catering</label>
+              <label><input type="checkbox" class="service" value="dj" checked> DJ & sonido</label>
+              <label><input type="checkbox" class="service" value="decoracion" checked> Decoración</label>
+              <label><input type="checkbox" class="service" value="foto"> Fotografía</label>
+            </div>
+
+            <div class="quote-result">
+              <span>Total estimado</span>
+              <strong id="quoteTotal">$890.000</strong>
+              <p id="quoteDetail">Incluye catering, DJ & sonido y decoración.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq-page">
+        <div class="container faq-page-box">
+          <div class="faq-page-content">
+            <p class="section-label">Centro de ayuda</p>
+            <h2 class="section-title">Preguntas y respuestas detalladas.</h2>
+            <p>Explorá dudas frecuentes sobre el funcionamiento de la plataforma, inteligencia artificial, organización de eventos y conexión con proveedores.</p>
+            <a href="#faq" class="btn btn-primary">Abrir FAQ</a>
+          </div>
+
+          <div class="faq-preview">
+            <div class="faq-preview-card">
+              <strong>¿Cómo funciona la IA?</strong>
+              <span>Optimiza tareas y presupuesto automáticamente.</span>
+            </div>
+
+            <div class="faq-preview-card">
+              <strong>¿Qué eventos puedo organizar?</strong>
+              <span>Eventos sociales, laborales y corporativos.</span>
+            </div>
+
+            <div class="faq-preview-card">
+              <strong>¿Puedo comparar proveedores?</strong>
+              <span>Sí, con reseñas y filtros personalizados.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <p>eventify — tu evento, sin complicaciones</p>
+        <p>Colores: #212541 · #6669f4 · #aa9df8 · #ececf8 · #ffffff</p>
+      </div>
+    </footer>
+  </div>
+<script>
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        button.classList.add('active');
+        document.getElementById(button.dataset.tab).classList.add('active');
+      });
+    });
+
+    const stepData = {
+      1: ['Paso 1', 'Crear evento', 'Elegí el tipo de evento, fecha, cantidad de invitados y presupuesto inicial.'],
+      2: ['Paso 2', 'Ordenar tareas', 'Eventify arma una lista de pendientes y marca prioridades para que nada quede afuera.'],
+      3: ['Paso 3', 'Comparar proveedores', 'La app muestra opciones, precios y reseñas para decidir con más seguridad.'],
+      4: ['Paso 4', 'Disfrutar', 'Llegás al evento con todo organizado, menos estrés y más control.']
+    };
+
+    const stepButtons = document.querySelectorAll('.step-btn');
+    const stepNumber = document.getElementById('stepNumber');
+    const stepTitle = document.getElementById('stepTitle');
+    const stepText = document.getElementById('stepText');
+    const stepProgress = document.getElementById('stepProgress');
+
+    stepButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const step = button.dataset.step;
+        stepButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        stepNumber.textContent = stepData[step][0];
+        stepTitle.textContent = stepData[step][1];
+        stepText.textContent = stepData[step][2];
+        stepProgress.style.width = (Number(step) * 25) + '%';
+      });
+    });
+
+    const guestRange = document.getElementById('guestRange');
+    const guestNumber = document.getElementById('guestNumber');
+    const quoteTotal = document.getElementById('quoteTotal');
+    const quoteDetail = document.getElementById('quoteDetail');
+    const eventType = document.getElementById('eventType');
+    const services = document.querySelectorAll('.service');
+
+    function updateQuote() {
+      const guests = Number(guestRange.value);
+      guestNumber.textContent = guests;
+      let total = 0;
+      let selected = [];
+
+      services.forEach(service => {
+        if (service.checked) {
+          selected.push(service.value);
+          if (service.value === 'catering') total += guests * 7000;
+          if (service.value === 'dj') total += 180000;
+          if (service.value === 'decoracion') total += 150000;
+          if (service.value === 'foto') total += 220000;
+        }
+      });
+
+      if (eventType.value === 'casamiento') total += 250000;
+      if (eventType.value === 'corporativo') total += 120000;
+
+      quoteTotal.textContent = '$' + total.toLocaleString('es-AR');
+      quoteDetail.textContent = selected.length ? 'Incluye ' + selected.join(', ') + '.' : 'Seleccioná al menos un servicio para calcular.';
+    }
+
+    if (guestRange) {
+      guestRange.addEventListener('input', updateQuote);
+      eventType.addEventListener('change', updateQuote);
+      services.forEach(service => service.addEventListener('change', updateQuote));
+      updateQuote();
+    }
+
+    const questionForm = document.getElementById('questionForm');
+    const questionMessage = document.getElementById('questionMessage');
+
+    if (questionForm) {
+      questionForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        questionMessage.textContent = '¡Gracias! Tu pregunta fue registrada. Esta demo no envía mails reales, pero muestra cómo funcionaría.';
+        questionForm.reset();
+      });
+    }
+
+    const openChat = document.getElementById('openChat');
+    const closeChat = document.getElementById('closeChat');
+    const chatWidget = document.getElementById('chatWidget');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatForm = document.getElementById('chatForm');
+    const chatInput = document.getElementById('chatInput');
+    const profileButtons = document.querySelectorAll('[data-profile]');
+
+    let botProfile = 'femenino';
+    let botName = 'Evita';
+
+    openChat.addEventListener('click', () => {
+      chatWidget.classList.toggle('active');
+      if (chatWidget.classList.contains('active')) chatInput.focus();
+    });
+
+    closeChat.addEventListener('click', () => {
+      chatWidget.classList.remove('active');
+    });
+
+    profileButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        botProfile = button.dataset.profile;
+        botName = botProfile === 'masculino' ? 'Evo' : 'Evita';
+        document.querySelectorAll('.chat-widget-header strong, .floating-chat strong').forEach(el => el.textContent = botName);
+        addMessage('bot', botName + ' activado. Voy a acompañarte con un perfil ' + botProfile + ', cercano y claro.');
+      });
+    });
+
+    chatForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = chatInput.value.trim();
+      if (!text) return;
+
+      addMessage('user', text);
+      chatInput.value = '';
+
+      setTimeout(() => {
+        addMessage('bot', getBotResponse(text));
+      }, 550);
+    });
+
+    function addMessage(type, text) {
+      const message = document.createElement('div');
+      message.className = 'message ' + type;
+      message.textContent = text;
+      chatMessages.appendChild(message);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function getBotResponse(text) {
+      const msg = text.toLowerCase();
+
+      if (msg.includes('hola') || msg.includes('buenas')) {
+        return '¡Hola! Soy ' + botName + '. Contame qué tipo de evento querés organizar y te ayudo a empezar.';
+      }
+
+      if (msg.includes('presupuesto') || msg.includes('precio') || msg.includes('plata')) {
+        return 'Podemos armar un presupuesto estimado dividiendo gastos en catering, espacio, decoración, música y extras. ¿Cuántas personas asistirían?';
+      }
+
+      if (msg.includes('proveedor') || msg.includes('catering') || msg.includes('foto') || msg.includes('dj')) {
+        return 'Te puedo ayudar a comparar proveedores por precio, reseñas, disponibilidad y estilo del evento.';
+      }
+
+      if (msg.includes('invitado') || msg.includes('invitados')) {
+        return 'Podés cargar invitados, confirmar asistencia y separar grupos para tener todo más ordenado.';
+      }
+
+      if (msg.includes('tarea') || msg.includes('organizar') || msg.includes('cronograma')) {
+        return 'Te recomiendo empezar por fecha, lugar, presupuesto, lista de invitados y proveedores principales. Después ordenamos el cronograma.';
+      }
+
+      return 'Entiendo. Puedo ayudarte con presupuesto, proveedores, invitados, tareas o cronograma. ¿Por dónde querés empezar?';
+    }
+  </script>
+</body>
+</html>
